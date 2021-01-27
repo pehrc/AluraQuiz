@@ -6,6 +6,9 @@ import QuizBackground from '../src/components/QuizBackground'
 import Footer from '../src/components/Footer'
 import GitHubCorner from '../src/components/GitHubCorner'
 import {useRouter} from 'next/router'
+import Input from '../src/components/Input'
+import Button from '../src/components/Button';
+
 
 // const BackgroundImage = styled.div`
 //   background-image: url(${db.bg});
@@ -14,7 +17,7 @@ import {useRouter} from 'next/router'
 //   background-position: center;
 // `;
 
-export const QuizContainer = styled.div`
+const QuizContainer = styled.div`
   width: 100%;
   max-width: 350px;
   padding-top: 45px;
@@ -32,6 +35,9 @@ export default function Home() {
 
   return (
     <QuizBackground backgroundImage={db.bg}>
+      <Head>
+        <title>{db.title}</title>
+      </Head>
       <QuizContainer>
         <QuizLogo />
         <Widget>
@@ -39,16 +45,22 @@ export default function Home() {
             <h1>{db.title}</h1>
           </Widget.Header>
           <Widget.Content>
+            <p>{db.description}</p>
             <form onSubmit={function (infosDoEvento){
               infosDoEvento.preventDefault();
               router.push(`/quiz?name=${name}`);
             }}>
-            <input size={35} placeholder="Diz ai seu nome" onChange={function(infosDoEvento) {
-              setName(infosDoEvento.target.value);
-            }}></input>
-            <button type="submit" disabled={name.length === 0}>
-              Vamos jogar {name} !
-            </button>
+
+              <Input
+                name="nomeDoUsuario"
+                onChange={(infosDoEvento) => setName(infosDoEvento.target.value)}
+                placeholder="Diz ai seu nome"
+                value={name}
+              />
+
+              <Button type="submit" disabled={name.length === 0}>
+                {`Jogar ${name}`}
+              </Button>
             </form>
           </Widget.Content>
         </Widget>
